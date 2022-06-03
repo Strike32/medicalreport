@@ -1,0 +1,1 @@
+//open, read(for declaring patient object as well), write record.csv
