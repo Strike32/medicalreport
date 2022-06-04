@@ -3,44 +3,76 @@ class patient{
     string name;
     int age;
     string risk;
-    float mortality_rate;
+    float risk_factor;
+    float weight;
+    float height;
+    float BMI;
+    int blood_pressure;
+    int hemoglobin;
+    int record;
+    
   
   public:
-    patient(string = "Unnamed", int = 0, string = "Unknown", float = 0);//default mortality to 0
+    patient(string = "Unnamed", int = 0, string = "Unknown", float = 0, float = 0, float = 0, float = 0, int = 0, int = 0);//default mortality to 0
     void display();
-    void update_mortality();
-    float mortality();
+    void update_risk_factor();
+    float riskfactor();
     ~patient(); //auto deletes already, doesn't have to include unless we wanna display something as the objects are being deleted
   
 };
 
-patient::patient(string n, int a, string r, float m){
+patient::patient(string n, int a, string r, float f, float w, float h, float b, int p, int g){
   name=n;
   age=a;
   risk=r;
-  mortality_rate=m;
+  risk_factor=f;
+  weight=w;
+  height=h;
+  BMI=b;
+  blood_pressure=p;
+  hemoglobin=g;
+  update_risk_factor();
 }
 
 void patient::display(){
-  cout<<"Patient name: "<<name<<"\nAge: "<<age<<"\nRisk: "<<risk<<"\nMortality rate: "<<mortality_rate<<endl;
+  cout<<"Patient name: "<<name<<"\nAge: "<<age<<"\nRisk: "<<risk<<"\nRisk Factor: "<<risk_factor<<endl;
 }
 
-void patient::update_mortality(){
-  //for calculating mortality
-  
+void patient::update_risk_factor(){
+  //for calculating risk_factor
+  record = 1;
+  BMI = weight/(height * height);
+
+  risk_factor = 1.0;
+
+  risk_factor+=(float(age) * 0.21);
+
+  if (blood_pressure > 140){
+    risk_factor+=2.0;
+  }
+
+  if (hemoglobin < 10){
+    risk_factor+=3.0;
+  }
+
+  if (BMI>=25.0 && BMI<=29.9){
+    risk_factor+=2.0;
+  } 
+  else if (BMI > 29.9){
+    risk_factor+=3.0;
+  }
 
 
-  //mortality_rate =
 }
 
-float patient::mortality(){
-  return mortality_rate;
+float patient::riskfactor(){
+  return risk_factor;
 }
 
 patient::~patient(){
-  if (mortality_rate == 0){
-  cout<<name<<" : recorded "<<"\n================"<<endl;
-    }else{
+  if (record == 1){
+    cout<<name<<" : recorded "<<"\n================"<<endl;
+  }else {
     cout<<name<<" : patient record cleared"<<endl;
-    }
+  }
 }

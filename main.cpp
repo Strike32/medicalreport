@@ -4,6 +4,7 @@ using namespace std;
 #include "patient.h"
 #include "sorting.h"
 #include <cstdlib>
+#include <stdlib.h> //system("clear"); for clearing screen
 
 void printingloop(patient *, int);
 int modeselection(char*);
@@ -24,6 +25,7 @@ int main(int argc, char **argv) {
     *(now+i) = patientset();
     //(now+i)->display(); //for debugging, already worked
   }
+  //printingloop(now,patientnum); //for debugging
   
   
   //will create object, while creating, also call sorting to sort, use insertion sort
@@ -56,13 +58,21 @@ int modeselection(char* mode){
 }
 
 patient patientset(){
-  string name, risk; int age; float mortality;
+  string name, risk; int age, blood_pressure, hemoglobin; float mortality, weight, height;
   cout<<"NAME : "; 
   cin>>name;
   cout<<"AGE : ";
   cin>>age;
   cout<<"RISK : ";
   cin>>risk;
-  patient a(name, age, risk);
+  cout<<"WEIGHT (kilogram) : "; 
+  cin>>weight;
+  cout<<"HEIGHT (metre) : ";
+  cin>>height;
+  cout<<"BLOOD PRESSURE : ";
+  cin>>blood_pressure;
+  cout<<"HEMOGLOBIN : ";
+  cin>>hemoglobin;
+  patient a(name, age, risk, weight, height, blood_pressure, hemoglobin);
   return a;
 }
