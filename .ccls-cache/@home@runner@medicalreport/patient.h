@@ -35,7 +35,7 @@ patient::patient(string n, int a, string r, float f, float w, float h, float b, 
 }
 
 void patient::display(){
-  cout<<"Patient name: "<<name<<"\nAge: "<<age<<"\nRisk: "<<risk<<"\nRisk Factor: "<<risk_factor<<endl;
+  cout<<"Patient name: "<<name<<"\nAge: "<<age<<"\nAdditional Health Risk: "<<risk<<"\nRisk Factor: "<<risk_factor<<endl;
   cout<<"========================================"<<endl;
 }
 
@@ -72,8 +72,10 @@ float patient::riskfactor(){
 
 patient::~patient(){
   if (record == 1){
-    cout<<name<<" : recorded "<<"\n================"<<endl;
+    cout<<name<<" : recorded "<<"\n========================================"<<endl;
   }else {
     cout<<name<<" : patient record cleared"<<endl;
   }
+  sleep(1);
+  system("clear");
 }

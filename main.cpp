@@ -1,10 +1,12 @@
 #include <iostream>
 using namespace std;
+#include <unistd.h>
+#include <stdlib.h>
 #include <string.h>
 #include "patient.h"
 #include "sorting.h"
 #include <cstdlib>
-#include <stdlib.h> //system("clear"); for clearing screen
+
 
 void printingloop(patient *, int);
 int modeselection(char*);
@@ -72,7 +74,7 @@ patient patientset(){
   cin>>name;
   cout<<"AGE : ";
   cin>>age;
-  cout<<"RISK : ";
+  cout<<"HEALTH CONCERS (Type none if none) : ";
   cin>>risk;
   cout<<"WEIGHT (kilogram) : "; 
   cin>>weight;
