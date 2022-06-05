@@ -6,7 +6,7 @@ compile: main.cpp
 ascending: $(DEPS)
 	 ./$(DEPS) -a
 
-decending: $(DEPS)
+descending: $(DEPS)
 	 ./$(DEPS) -d
 
 clean: $(DEPS)
