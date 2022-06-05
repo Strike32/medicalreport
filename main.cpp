@@ -12,6 +12,7 @@ patient patientset();
 
 
 int main(int argc, char **argv) {
+  system("clear");
   if (argc == 1){ cout<<"No mode selected\nENDING PROGRAM\n"; return 0;}
   int mode = modeselection(argv[1]);
   int patientnum;
@@ -25,12 +26,20 @@ int main(int argc, char **argv) {
     *(now+i) = patientset();
     //(now+i)->display(); //for debugging, already worked
   }
+  if(mode==1){
+    insertionSortASC(now,patientnum);
+  }else{
+    insertionSortDEC(now,patientnum);
+  }
+  if(mode == 1){
+    cout<<"Ordering Patient Survivability in ascending order accoding to Risk Factor : "<<endl;
+  }else{
+    cout<<"Ordering Patient Survivability in decending order according to Risk Factor : "<<endl;
+  }
+  cout<<"========================================"<<endl;
+  printingloop(now,patientnum);
   //printingloop(now,patientnum); //for debugging
   
-  
-  //will create object, while creating, also call sorting to sort, use insertion sort
-
-  //print patient from ascending or decending once entering name has been exited
 
   //freeing the array
   free(now);
@@ -73,6 +82,7 @@ patient patientset(){
   cin>>blood_pressure;
   cout<<"HEMOGLOBIN : ";
   cin>>hemoglobin;
+  system("clear");
   patient a(name, age, risk, weight, height, blood_pressure, hemoglobin);
   return a;
 }

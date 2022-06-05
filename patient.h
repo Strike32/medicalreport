@@ -36,6 +36,7 @@ patient::patient(string n, int a, string r, float f, float w, float h, float b, 
 
 void patient::display(){
   cout<<"Patient name: "<<name<<"\nAge: "<<age<<"\nRisk: "<<risk<<"\nRisk Factor: "<<risk_factor<<endl;
+  cout<<"========================================"<<endl;
 }
 
 void patient::update_risk_factor(){
