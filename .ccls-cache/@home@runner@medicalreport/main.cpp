@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
   patient *now = (patient*) malloc(patientnum * sizeof(patient));
   for (int i =0; i<patientnum; i++){
     *(now+i) = patientset();
+    (now+i)->updaterecorded();
     //(now+i)->display(); //for debugging, already worked
   }
   if(mode==1){
@@ -45,12 +46,14 @@ int main(int argc, char **argv) {
 
   //freeing the array
   free(now);
+  
 }
 
 
 void printingloop(patient *p, int n){
   for(int i = 0; i<n;i++){
     (p+i)->display();
+    (p+i)->updaterecorded();
   }
 }
 

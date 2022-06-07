@@ -13,22 +13,21 @@ class patient{
     
   
   public:
-    patient(string = "Unnamed", int = 0, string = "Unknown", float = 0, float = 0, float = 0, float = 0, int = 0, int = 0);//default mortality to 0
+    patient(string n = "Unnamed", int a = 0, string r = "Unknown" , float w  = 0.0, float h = 0.0, int p = 0, int g = 0);
     void display();
     void update_risk_factor();
     float riskfactor();
+    void updaterecorded();
     ~patient(); //auto deletes already, doesn't have to include unless we wanna display something as the objects are being deleted
   
 };
 
-patient::patient(string n, int a, string r, float f, float w, float h, float b, int p, int g){
+patient::patient(string n, int a, string r, float w, float h, int p, int g){
   name=n;
   age=a;
   risk=r;
-  risk_factor=f;
   weight=w;
   height=h;
-  BMI=b;
   blood_pressure=p;
   hemoglobin=g;
   update_risk_factor();
@@ -48,21 +47,26 @@ void patient::update_risk_factor(){
 
   risk_factor+=(float(age) * 0.21);
 
-  if (blood_pressure > 140){
+  if (blood_pressure >= 140){
     risk_factor+=2.0;
+    //cout<<"+2"<<endl;
   }
 
   if (hemoglobin < 10){
     risk_factor+=3.0;
+    //cout<<"+3"<<endl;
   }
 
-  if (BMI>=25.0 && BMI<=29.9){
-    risk_factor+=2.0;
-  } 
-  else if (BMI > 29.9){
+  if (BMI < 25.0){
+    risk_factor+=0.0;
+    //cout<<"+0"<<endl;
+  } else if (BMI>=25.0 && BMI<=29.9){
     risk_factor+=3.0;
+    //cout<<"+3"<<endl;
+  } else {
+    risk_factor+=4.0;
+    //cout<<"+4"<<endl;
   }
-
 
 }
 
@@ -70,11 +74,13 @@ float patient::riskfactor(){
   return risk_factor;
 }
 
+void patient::updaterecorded(){
+  record++;
+}
+
 patient::~patient(){
   if (record == 1){
     cout<<name<<" : recorded "<<"\n========================================"<<endl;
-  }else {
-    cout<<name<<" : patient record cleared"<<endl;
   }
   sleep(1);
   system("clear");
