@@ -18,7 +18,7 @@ class patient{
     void update_risk_factor();
     float riskfactor();
     void updaterecorded();
-    ~patient(); //auto deletes already, doesn't have to include unless we wanna display something as the objects are being deleted
+    ~patient();
   
 };
 
@@ -81,7 +81,7 @@ void patient::updaterecorded(){
 patient::~patient(){
   if (record == 1){
     cout<<name<<" : recorded "<<"\n========================================"<<endl;
-  }
   sleep(1);
   system("clear");
+  }
 }
