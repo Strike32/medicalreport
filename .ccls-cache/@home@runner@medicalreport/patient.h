@@ -1,5 +1,8 @@
+#include <iomanip>
 class patient{
   private:
+    patient *nextPatient;
+    patient *prevPatient;
     string name;
     int age;
     string risk;
@@ -18,9 +21,30 @@ class patient{
     void update_risk_factor();
     float riskfactor();
     void updaterecorded();
+    patient* getnext();
+    patient* getprev();
+    void setnext(patient*);
+    void setprev(patient*);
+    string getname(){return name;}
     ~patient();
   
 };
+typedef patient *NodePtr;
+
+patient* patient::getnext(){
+  return nextPatient;
+}
+patient* patient::getprev(){
+  return nextPatient;
+}
+
+void patient::setnext(patient* t){
+  nextPatient = t;
+}
+void patient::setprev(patient* t){
+  prevPatient = t;
+}
+
 
 patient::patient(string n, int a, string r, float w, float h, int p, int g){
   name=n;
@@ -30,6 +54,8 @@ patient::patient(string n, int a, string r, float w, float h, int p, int g){
   height=h;
   blood_pressure=p;
   hemoglobin=g;
+  nextPatient = NULL;
+  prevPatient = NULL;
   update_risk_factor();
 }
 
@@ -83,5 +109,7 @@ patient::~patient(){
     cout<<name<<" : recorded "<<"\n========================================"<<endl;
   sleep(1);
   system("clear");
+  }else{
+    cout<<name<<" : record deleted"<<endl;
   }
 }

@@ -1,13 +1,13 @@
 DEPS= medrep
-compile: main.cpp 
-	 g++ main.cpp -o $(DEPS)
+compile: medrep.cpp 
+	 g++ medrep.cpp -o $(DEPS)
 	 clear
 
-ascending: $(DEPS)
-	 ./$(DEPS) -a
+inserting: $(DEPS)
+	 ./$(DEPS) -i
 
-descending: $(DEPS)
-	 ./$(DEPS) -d
+queuing: $(DEPS)
+	 ./$(DEPS) -q
 
 clean: $(DEPS)
 	 rm $(DEPS)
