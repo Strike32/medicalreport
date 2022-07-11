@@ -42,6 +42,8 @@ organ::~organ(){
     cout<<"Deleting Organ: "<<organname<<" from system"<<endl;
   }else{
     cout<<"Organ : "<<organname<<"\nDonor name: "<<donorname<<"\nIs being transplanted"<<endl;
+    sleep(5);
+    system("clear");
   }
 }
 

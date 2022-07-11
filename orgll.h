@@ -10,6 +10,7 @@ class OrgLL{
     void printorg();
     int organhit(OrgNode,LL*);
     void checker(LL*);
+    inline void returningscreen();
     ~OrgLL();
 };
 
@@ -17,6 +18,12 @@ OrgLL::OrgLL(){
   orghead = NULL;
   orgtail = NULL;
   orgsize = 0;
+}
+inline void OrgLL::returningscreen(){
+  cout<<"Task successful"<<endl;
+  cout<<"Returning to main menu"<<endl;
+  sleep(2);
+  system("clear");
 }
 
 void OrgLL::checker(LL *patientlist){
@@ -26,22 +33,29 @@ void OrgLL::checker(LL *patientlist){
   for (int i = 0; i<orgsize; i++){
     hit = organhit(t,patientlist);
     if(hit == 1){
-      t->updateused();
-      if(orgsize != 1){
-        OrgNode prev = t->getprev();
-        OrgNode next = t->getnext();
-        prev->setnext(next);
-        next->setprev(prev);
-      }else{
-        orghead = NULL;
-        orgtail = NULL;
-      }
-      delete t;
-      orgsize--;
       break;
     }else{
       t = t->getnext();
     }
+  }
+  if(hit){
+    t->updateused();
+    if(t!= orghead&&t!= orgtail){
+      OrgNode prev = t->getprev();
+      OrgNode next = t->getnext();
+      prev->setnext(next);
+      next->setprev(prev);
+    }else if(t == orghead&&orgsize != 1){
+      orghead = orghead->getnext();
+    }else if(t == orgtail&&orgsize != 1){
+      orgtail = orgtail->getprev();
+    }else{
+      orghead = NULL;
+      orgtail = NULL;
+    }
+    //cout<<"reached here"<<endl;
+    delete t;
+    orgsize--;
   }
 }
 
@@ -65,7 +79,8 @@ void OrgLL::organqueue(){
     orgtail = newin;
   }
   orgsize++;
-  printorg();
+  returningscreen();
+  //printorg();
 }
 
 int OrgLL::organhit(OrgNode t, LL *patientlist){
@@ -85,13 +100,20 @@ void OrgLL::printorg(){
 }
 
 OrgLL::~OrgLL(){
+  int call = 0;
   OrgNode t = orghead;
-  cout<<"Deleting donated Organ list"<<endl;
-  cout<<"==========================="<<endl;
+  if(orgsize != 0){
+    cout<<"Organ left unused : "<<orgsize<<endl;
+    cout<<"Deleting donated Organ list"<<endl;
+    cout<<"==========================="<<endl;
+    call = 1;
+  }
   for(int i = 0; i<orgsize; i++){
     orghead = orghead->getnext();
     delete t;
     t = orghead;
   }
-  cout<<"==========================="<<endl;
+  if(call){
+    cout<<"==========================="<<endl;
+  }
 }

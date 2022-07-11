@@ -4,7 +4,7 @@ using namespace std;
 #include <stdlib.h>
 #include <cstring>
 #include "ll.h"
-#include "sorting.h"
+//#include "sorting.h" sorting already done in ll.h
 #include "orgll.h"
 #include <cstdlib>
 int modeselection(char*);
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
         switch(mainmenu){
           case 1: patientlist.insert(); break;
           case 2: organlist.organqueue(); break;
-          case 3: patientlist.deletes(target); break;
+          case 3: patientlist.deletes(target,2); break;
           case 4:
             if(submenu == 1){
               patientlist.print();
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
         switch(mainmenu){
           case 1: patientlist.queue(); break;
           case 2: organlist.organqueue(); break;
-          case 3: patientlist.deletes(target); break;
+          case 3: patientlist.deletes(target,2); break;
           case 4:
             patientlist.print();
             break;

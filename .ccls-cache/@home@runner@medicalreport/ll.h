@@ -7,13 +7,14 @@ class LL{
     int size;
   public:
     LL();
-    void deletes(string name);
+    void deletes(string,int);
     int isEmpty();
     void insert();
     void queue();
     void print();
     void printR();
     inline void returningscreen();
+    inline void returningscreen(int);
     int foundorgan(string);
 //print and printR
     ~LL();
@@ -34,9 +35,7 @@ int LL::foundorgan(string in){
     if(strcmp(t->getorgan().c_str(), in.c_str())==0){
       hit = 1;
       cout<<"Donor organ found"<<"\nDischarging patient from list : "<<t->getname()<<endl;
-      deletes(patientname);
-      sleep(5);
-      system("clear");
+      deletes(patientname, 0);
       return hit;
     }else{
       t = t->getnext();
@@ -53,7 +52,16 @@ inline void LL::returningscreen(){
   system("clear");
 }
 
-void LL::deletes(string name){
+inline void LL::returningscreen(int in){
+  cout<<"Task successful"<<endl;
+  cout<<"Returning to main menu"<<endl;
+  sleep(in);
+  if(in != 0){
+    system("clear");
+  }
+}
+
+void LL::deletes(string name, int sleeper){
   //find target patient, delete from linked list
   string tarname;
   NodePtr target, find, afterTar,beforeTar;
@@ -78,25 +86,25 @@ void LL::deletes(string name){
       head = head->getnext();
       delete target;
       size --;
-      returningscreen();
+      returningscreen(sleeper);
       return;
     }
     if(target == tail){
       tail = tail->getprev();
       delete target;
       size --;
-      returningscreen();
+      returningscreen(sleeper);
       return;
     }
       beforeTar->setnext(afterTar);
       afterTar->setprev(beforeTar);     
     delete target;
     size --;
-    returningscreen();
+    returningscreen(sleeper);
     return;//hit
   }else{
     cout<<"Patient not found in list"<<endl;
-    returningscreen();
+    returningscreen(sleeper);
     return;//doesn't hit
   }
 }
@@ -230,9 +238,14 @@ void LL::printR(){
 }
 
 LL::~LL(){
+  int call = 0;
   if(!isEmpty()){
+    cout<<"Patient left untreated: "<<size<<endl;
     cout<<"Deleting Patient list"<<endl;
     cout<<"====================="<<endl;
+    call = 1;
+  }else{
+    c
   }
   NodePtr t = head;
   for(int i = 0; i<size;i++){
@@ -241,7 +254,7 @@ LL::~LL(){
     delete t;
     t = head;
   }
-  if(!isEmpty()){
+  if(call){
 
     cout<<"====================="<<endl;
   }
