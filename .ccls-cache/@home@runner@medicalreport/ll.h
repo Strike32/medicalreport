@@ -1,5 +1,6 @@
 #include "patient.h"
 
+#include <string.h>
 class LL{
   private:
     NodePtr head, tail;
@@ -12,14 +13,44 @@ class LL{
     void queue();
     void print();
     void printR();
+    inline void returningscreen();
+    int foundorgan(string);
 //print and printR
     ~LL();
     
 };
 
 LL::LL(){
-  head = NULL;
+  head = NULL; tail = NULL;
   size = 0;
+}
+
+int LL::foundorgan(string in){
+  int hit = 0;
+  string patientname;
+  NodePtr t = head;
+  for(int i =0; i<size; i++){
+    patientname = t->getname();
+    if(strcmp(t->getorgan().c_str(), in.c_str())==0){
+      hit = 1;
+      cout<<"Donor organ found"<<"\nDischarging patient from list : "<<t->getname()<<endl;
+      deletes(patientname);
+      sleep(5);
+      system("clear");
+      return hit;
+    }else{
+      t = t->getnext();
+    }
+  }
+  return hit;
+}
+
+
+inline void LL::returningscreen(){
+  cout<<"Task successful"<<endl;
+  cout<<"Returning to main menu"<<endl;
+  sleep(2);
+  system("clear");
 }
 
 void LL::deletes(string name){
@@ -47,21 +78,25 @@ void LL::deletes(string name){
       head = head->getnext();
       delete target;
       size --;
+      returningscreen();
       return;
     }
     if(target == tail){
       tail = tail->getprev();
       delete target;
       size --;
+      returningscreen();
       return;
     }
       beforeTar->setnext(afterTar);
       afterTar->setprev(beforeTar);     
     delete target;
     size --;
+    returningscreen();
     return;//hit
   }else{
     cout<<"Patient not found in list"<<endl;
+    returningscreen();
     return;//doesn't hit
   }
 }
@@ -75,6 +110,7 @@ void LL::insert(){
   string name, risk;
   int age, blood_pressure, hemoglobin;
   float mortality, weight, height;
+  string organ;
   cout<<"NAME : "; 
   cin>>name;
   cout<<"AGE : ";
@@ -89,10 +125,11 @@ void LL::insert(){
   cin>>blood_pressure;
   cout<<"HEMOGLOBIN : ";
   cin>>hemoglobin;
-  sleep(2);
-  system("clear");
+  cout<<"ORGAN NEEDED : ";
+  cin>>organ;
+  returningscreen();
   
-  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin);
+  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin,organ);
   NodePtr prevPtr;
   NodePtr currPtr;
 
@@ -101,7 +138,8 @@ void LL::insert(){
     prevPtr = NULL;
     currPtr = head;
 
-    while(currPtr != NULL && newPtr->riskfactor() > currPtr->riskfactor()){
+    while(currPtr != NULL && newPtr->riskfactor() < currPtr->riskfactor()){
+      //insert from most severe to least severe
       prevPtr = currPtr;
       currPtr = currPtr->getnext();
     }
@@ -134,6 +172,7 @@ void LL::queue(){
   string name, risk;
   int age, blood_pressure, hemoglobin;
   float mortality, weight, height;
+  string organ;
   cout<<"NAME : "; 
   cin>>name;
   cout<<"AGE : ";
@@ -148,20 +187,16 @@ void LL::queue(){
   cin>>blood_pressure;
   cout<<"HEMOGLOBIN : ";
   cin>>hemoglobin;
-  system("clear");
+  cout<<"ORGAN NEEDED : ";
+  cin>>organ;
+  returningscreen();
 
-  NodePtr last = head;
-  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin);
+  NodePtr last = tail;
+  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin,organ);
   if(size == 0){
     head = newPtr;
     tail = head;
   }else{
-    for(int i =0; i<size;i++){
-      if(last->getnext()== NULL){
-        break;
-      }
-      last = last->getnext();
-    }
     last->setnext(newPtr);
     tail = last->getnext();
   }
@@ -169,7 +204,11 @@ void LL::queue(){
 }
 
 void LL::print(){
-  if(isEmpty()) return;
+  if(isEmpty()){
+    cout<<"Record empty"<<endl;
+    returningscreen();
+    return;
+  }
   NodePtr t = head;
   for(int i = 0; i<size;i++){
     t->display();
@@ -178,7 +217,11 @@ void LL::print(){
 }
 
 void LL::printR(){
-  if(isEmpty()) return;
+  if(isEmpty()){
+    cout<<"Record empty"<<endl;
+    returningscreen();
+    return;
+  }
   NodePtr t = tail;
   for (int i = 0; i<size;i++){
     t->display();
@@ -187,7 +230,10 @@ void LL::printR(){
 }
 
 LL::~LL(){
-  cout<<"Deleting Patient list"<<endl;
+  if(!isEmpty()){
+    cout<<"Deleting Patient list"<<endl;
+    cout<<"====================="<<endl;
+  }
   NodePtr t = head;
   for(int i = 0; i<size;i++){
     head = head->getnext();
@@ -195,5 +241,8 @@ LL::~LL(){
     delete t;
     t = head;
   }
-  cout<<"======================================="<<endl;
+  if(!isEmpty()){
+
+    cout<<"====================="<<endl;
+  }
 }

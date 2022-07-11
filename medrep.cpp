@@ -2,12 +2,11 @@
 using namespace std;
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <cstring>
 #include "ll.h"
 #include "sorting.h"
+#include "orgll.h"
 #include <cstdlib>
-
 int modeselection(char*);
 string menu(int*,int*,LL*,int);
 
@@ -15,19 +14,21 @@ int main(int argc, char **argv) {
   string target;
   int mainmenu,submenu;
   LL patientlist;
+  OrgLL organlist;
   system("clear");
   if (argc == 1){ cout<<"No mode selected\nENDING PROGRAM\n"; return 0;}
   int mode = modeselection(argv[1]);
   if (mode == 0) return 0;
-  while(mainmenu!= 4){
+  while(mainmenu!= 5){
     target = menu(&mainmenu,&submenu,&patientlist,mode);
-    if(mainmenu == 4) break;
+    if(mainmenu == 5) break;
     switch(mode){
       case 1://does stuff by inserting;
         switch(mainmenu){
           case 1: patientlist.insert(); break;
-          case 2: patientlist.deletes(target); break;
-          case 3:
+          case 2: organlist.organqueue(); break;
+          case 3: patientlist.deletes(target); break;
+          case 4:
             if(submenu == 1){
               patientlist.print();
             }else{
@@ -38,15 +39,18 @@ int main(int argc, char **argv) {
       case -1://does stuff in queue;
         switch(mainmenu){
           case 1: patientlist.queue(); break;
-          case 2: patientlist.deletes(target); break;
-          case 3:
+          case 2: organlist.organqueue(); break;
+          case 3: patientlist.deletes(target); break;
+          case 4:
             patientlist.print();
             break;
         }
         break;
     }
+    organlist.checker(&patientlist);
   }
   //call destructor
+  
   cout<<"Exiting Program"<<endl<<"Thank you for using"<<endl;
   
 }
@@ -68,37 +72,44 @@ int modeselection(char* mode){
 string menu(int* mainmenu,int* submenu,LL* patientlist, int mode){
   string target;
   int choice;
+  if(mode == 1){
+    cout<<"Inserting Queue mode"<<endl;
+  }else if (mode == -1){
+    cout<<"Standard Queuing mode"<<endl;
+  }
   cout<<"Please select action"<<endl;
   cout<<"1.Add patient"<<endl;
-  cout<<"2.Delete patient"<<endl;
-  cout<<"3.Print current stored patient list"<<endl;
-  cout<<"4.Stop program and delete record"<<endl;
+  cout<<"2.Add donor organ"<<endl;
+  cout<<"3.Discharge patient"<<endl;
+  cout<<"4.Print current stored patient list"<<endl;
+  cout<<"5.Stop program and delete record"<<endl;
   cin>>choice;
   *mainmenu = choice;
   *submenu = 0;
-  if(*mainmenu == 3&&mode == 1){
-    cout<<"1.Printing in Ascending risk order"<<endl;
-    cout<<"2.Printing in Descending risk order"<<endl;
+  
+  if(*mainmenu == 4){
+    cout<<"1.Printing Queue from first to last"<<endl;
+    cout<<"2.Printing Queue from last to first"<<endl;
     cin>>choice;
     *submenu = choice;
   }else{
     *submenu = 1;
   }
-  if(*mainmenu == 2&& patientlist->isEmpty()){
+  
+  if(*mainmenu == 3&& patientlist->isEmpty()){
     cout<<"No patient in system"<<endl;
     cout<<"Please choose again"<<endl;
+    sleep(2);
     system("clear");
     return menu(mainmenu,submenu,patientlist,mode);
-  }   
-  if(*mainmenu == 2){
-    cout<<"Patient to delete (input name): ";
+  }
+  
+  if(*mainmenu == 3){
+    cout<<"Patient to discharge (input name): ";
     cin>>target;
     return target;
   }else{
     return "0";
   }
-  
-  
-  
   
 }

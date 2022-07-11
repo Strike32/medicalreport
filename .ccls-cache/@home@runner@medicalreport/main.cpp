@@ -1,3 +1,6 @@
+                                                                
+                                //no longer in use
+/*
 #include <iostream>
 using namespace std;
 #include <unistd.h>
@@ -91,3 +94,4 @@ patient patientset(){
   patient a(name, age, risk, weight, height, blood_pressure, hemoglobin);
   return a;
 }
+*/
