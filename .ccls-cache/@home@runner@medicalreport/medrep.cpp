@@ -8,7 +8,7 @@ using namespace std;
 #include "orgll.h"
 #include <cstdlib>
 int modeselection(char*);
-string menu(int*,int*,LL*,int);
+string menu(int*,int*,LL*,int,OrgLL*);
 
 int main(int argc, char **argv) {
   string target;
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
   int mode = modeselection(argv[1]);
   if (mode == 0) return 0;
   while(mainmenu!= 5){
-    target = menu(&mainmenu,&submenu,&patientlist,mode);
+    target = menu(&mainmenu,&submenu,&patientlist,mode,&organlist);
     if(mainmenu == 5) break;
     switch(mode){
       case 1://does stuff by inserting;
@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
     organlist.checker(&patientlist);
   }
   //call destructor
-  
-  cout<<"Exiting Program"<<endl<<"Thank you for using"<<endl;
+  system("clear");
+  cout<<"Exiting Program"<<endl<<"Thank you for using our system"<<endl;
   
 }
 
@@ -69,13 +69,17 @@ int modeselection(char* mode){
   }
 }
 
-string menu(int* mainmenu,int* submenu,LL* patientlist, int mode){
+string menu(int* mainmenu,int* submenu,LL* patientlist, int mode,OrgLL* organlist){
   string target;
   int choice;
   if(mode == 1){
     cout<<"Inserting Queue mode"<<endl;
   }else if (mode == -1){
     cout<<"Standard Queuing mode"<<endl;
+  }
+  if(organlist->isEmpty()==0){
+    cout<<"Donor Organ in system:\n";
+    organlist->printorg();
   }
   cout<<"Please select action"<<endl;
   cout<<"1.Add patient"<<endl;
@@ -101,7 +105,7 @@ string menu(int* mainmenu,int* submenu,LL* patientlist, int mode){
     cout<<"Please choose again"<<endl;
     sleep(2);
     system("clear");
-    return menu(mainmenu,submenu,patientlist,mode);
+    return menu(mainmenu,submenu,patientlist,mode,organlist);
   }
   
   if(*mainmenu == 3){

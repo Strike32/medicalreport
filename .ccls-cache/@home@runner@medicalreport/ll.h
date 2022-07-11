@@ -245,7 +245,7 @@ LL::~LL(){
     cout<<"====================="<<endl;
     call = 1;
   }else{
-    c
+    cout<<"No patient left untreated."<<endl;
   }
   NodePtr t = head;
   for(int i = 0; i<size;i++){

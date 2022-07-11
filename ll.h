@@ -222,6 +222,7 @@ void LL::print(){
     t->display();
     t = t->getnext();
   }
+  cout<<"\n";
 }
 
 void LL::printR(){
@@ -235,6 +236,7 @@ void LL::printR(){
     t->display();
     t = t->getprev();
   }
+  cout<<"\n";
 }
 
 LL::~LL(){

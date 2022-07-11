@@ -11,6 +11,7 @@ class OrgLL{
     int organhit(OrgNode,LL*);
     void checker(LL*);
     inline void returningscreen();
+    int isEmpty(){if(orgsize== 0){return 1;}else{return 0;}}
     ~OrgLL();
 };
 
@@ -93,10 +94,13 @@ int OrgLL::organhit(OrgNode t, LL *patientlist){
 
 void OrgLL::printorg(){
   OrgNode t = orghead;
+  cout<<"==========================="<<endl;
   for (int i = 0; i<orgsize; i++){
     cout<<"Organ : "<<t->getorgan()<<"\nDonor : "<<t->getdonorname()<<"\nQuality : "<<t->getquality()<<endl;
+    cout<<"==========================="<<endl;
     t = t->getnext();
   }
+  cout<<"==========================="<<endl;
 }
 
 OrgLL::~OrgLL(){
