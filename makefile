@@ -1,4 +1,4 @@
-make DEPS= medrep
+DEPS= medrep
 compile: medrep.cpp 
 	 g++ medrep.cpp -o $(DEPS)
 	 clear
