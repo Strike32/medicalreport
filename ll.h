@@ -10,13 +10,15 @@ class LL{
     void deletes(string,int);
     int isEmpty();
     void insert();
+    void insert(NodePtr);
     void queue();
     void print();
     void printR();
     inline void returningscreen();
     inline void returningscreen(int);
     int foundorgan(string);
-//print and printR
+    void perscription(int);
+
     ~LL();
     
 };
@@ -44,6 +46,65 @@ int LL::foundorgan(string in){
   return hit;
 }
 
+void LL::perscription(int mode){
+  int choice;
+  NodePtr prev, next;
+  NodePtr t = head;
+  for(int i= 0; i<size;i++){
+    cout<<i+1<<". "<<t->getname()<<"\n\tRisk factor: "<<t->riskfactor()<<"\n\tHealth Risk: "<<t->getrisk()<<endl;
+    t = t->getnext();
+  }
+  cout<<"Please select patient to give perscription :"<<endl;
+  cin>>choice;
+  if (choice > size){
+    cout<<"Invalid input, restarting perscription"<<endl; perscription(mode);
+  }else{
+    NodePtr y = head;
+    for (int i = 0; i<choice-1; i++){
+      y = y->getnext();
+    }
+    if(mode!= -1){
+      if(size>1){
+        NodePtr newnode = y->duplicate();
+        y->updaterecorded(4);
+        string name = y->getname();
+        deletes(name, 100);
+        cout<<"error here";
+        newnode->reduce_risk_factor();
+        insert(newnode);
+      }
+    }else{
+      y->reduce_risk_factor();
+    }
+  }
+}
+
+void LL::insert(NodePtr newPtr){
+  //inserting with known node, for dynamically updating the patientlist in inserting mode
+  NodePtr prevPtr, currPtr;
+  prevPtr = NULL;
+  currPtr = head;
+  while(currPtr != NULL && newPtr->riskfactor()<currPtr->riskfactor()){
+    prevPtr = currPtr;
+    currPtr = currPtr->getnext();
+  }
+  if(prevPtr == NULL){
+    newPtr->setnext(head);
+    head = newPtr;
+  }else{
+    prevPtr->setnext(newPtr);
+    newPtr->setnext(currPtr);
+    newPtr->setprev(prevPtr);
+  }
+  if(currPtr == NULL){
+    tail = newPtr;
+  }
+  if(currPtr != NULL){
+    currPtr->setprev(newPtr);
+  }
+  size++;
+}
+
 
 inline void LL::returningscreen(){
   cout<<"Task successful"<<endl;
@@ -53,10 +114,14 @@ inline void LL::returningscreen(){
 }
 
 inline void LL::returningscreen(int in){
-  cout<<"Task successful"<<endl;
-  cout<<"Returning to main menu"<<endl;
-  sleep(in);
-  if(in != 0){
+  int i = in;
+  if (in == 100) i = 0;
+  if(in != 100) {
+    cout<<"Task successful"<<endl;
+    cout<<"Returning to main menu"<<endl;
+    sleep(i);
+  }
+  if(i != 0){
     system("clear");
   }
 }
@@ -80,7 +145,7 @@ void LL::deletes(string name, int sleeper){
     find = find->getnext();
   }
   if(found){
-    cout<<"Deleting "<<tarname<<" from list"<<endl;
+    if(sleeper!= 100) cout<<"Deleting "<<tarname<<" from list"<<endl;
     target->updaterecorded();
     if(target == head){
       head = head->getnext();
@@ -159,7 +224,7 @@ void LL::insert(){
     }else{
       prevPtr->setnext(newPtr);
       newPtr->setnext(currPtr);
-      newPtr->setprev(prevPtr);//for some reason this doesn't work, newPtr prevPatient kept being unlinked
+      newPtr->setprev(prevPtr);
     }
     
     if(currPtr == NULL){
