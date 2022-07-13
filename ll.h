@@ -18,6 +18,7 @@ class LL{
     inline void returningscreen(int);
     int foundorgan(string);
     void perscription(int);
+    NodePtr makepatient();
 
     ~LL();
     
@@ -83,29 +84,33 @@ void LL::perscription(int mode){
 }
 
 void LL::insert(NodePtr newPtr){
+  if(newPtr){
   //inserting with known node, for dynamically updating the patientlist in inserting mode
-  NodePtr prevPtr, currPtr;
-  prevPtr = NULL;
-  currPtr = head;
-  while(currPtr != NULL && newPtr->riskfactor()<currPtr->riskfactor()){
-    prevPtr = currPtr;
-    currPtr = currPtr->getnext();
-  }
-  if(prevPtr == NULL){
-    newPtr->setnext(head);
-    head = newPtr;
+    NodePtr prevPtr, currPtr;
+    prevPtr = NULL;
+    currPtr = head;
+    while(currPtr != NULL && newPtr->riskfactor()<currPtr->riskfactor()){
+      prevPtr = currPtr;
+      currPtr = currPtr->getnext();
+    }
+    if(prevPtr == NULL){
+      newPtr->setnext(head);
+      head = newPtr;
+    }else{
+      prevPtr->setnext(newPtr);
+      newPtr->setnext(currPtr);
+      newPtr->setprev(prevPtr);
+    }
+    if(currPtr == NULL){
+      tail = newPtr;
+    }
+    if(currPtr != NULL){
+      currPtr->setprev(newPtr);
+    }
+    size++;
   }else{
-    prevPtr->setnext(newPtr);
-    newPtr->setnext(currPtr);
-    newPtr->setprev(prevPtr);
+    cout<<"Patient not inserted\nSYSTEM MEMORY FULL"<<endl;
   }
-  if(currPtr == NULL){
-    tail = newPtr;
-  }
-  if(currPtr != NULL){
-    currPtr->setprev(newPtr);
-  }
-  size++;
 }
 
 
@@ -181,8 +186,7 @@ int LL::isEmpty(){
   return head == NULL;
 }
 
-void LL::insert(){
-  //insert patient, makes a new patient class here to set insertion
+NodePtr LL::makepatient(){
   string name, risk;
   int age, blood_pressure, hemoglobin;
   float mortality, weight, height;
@@ -203,72 +207,24 @@ void LL::insert(){
   cin>>hemoglobin;
   cout<<"ORGAN NEEDED : ";
   cin>>organ;
+  NodePtr returning = new patient(name, age, risk, weight, height, blood_pressure, hemoglobin, organ);
+  return returning;  
+}
+
+void LL::insert(){
+  //insert patient, makes a new patient class here to set insertion
+
+  NodePtr newPtr = makepatient();
+  insert(newPtr);
   returningscreen();
-  
-  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin,organ);
-  NodePtr prevPtr;
-  NodePtr currPtr;
-
-  
-  if(newPtr!=NULL){
-    prevPtr = NULL;
-    currPtr = head;
-
-    while(currPtr != NULL && newPtr->riskfactor() < currPtr->riskfactor()){
-      //insert from most severe to least severe
-      prevPtr = currPtr;
-      currPtr = currPtr->getnext();
-    }
-    
-    if(prevPtr == NULL){
-      newPtr->setnext(head);
-      head = newPtr;
-      
-    }else{
-      prevPtr->setnext(newPtr);
-      newPtr->setnext(currPtr);
-      newPtr->setprev(prevPtr);
-    }
-    
-    if(currPtr == NULL){
-      tail = newPtr;
-    }
-    if(currPtr != NULL){
-      currPtr->setprev(newPtr);
-    }
-
-    size++;
-  }else{
-    cout<<name<<" :patient not inserted\nSYSTEM MEMORY FULL"<<endl;
-  }
 }
 
 void LL::queue(){
   //from mode select in main, if queue, no insertion, just normal linking
-  string name, risk;
-  int age, blood_pressure, hemoglobin;
-  float mortality, weight, height;
-  string organ;
-  cout<<"NAME : "; 
-  cin>>name;
-  cout<<"AGE : ";
-  cin>>age;
-  cout<<"HEALTH CONCERS (Type none if none) : ";
-  cin>>risk;
-  cout<<"WEIGHT (kilogram) : "; 
-  cin>>weight;
-  cout<<"HEIGHT (metre) : ";
-  cin>>height;
-  cout<<"BLOOD PRESSURE : ";
-  cin>>blood_pressure;
-  cout<<"HEMOGLOBIN : ";
-  cin>>hemoglobin;
-  cout<<"ORGAN NEEDED : ";
-  cin>>organ;
-  returningscreen();
 
   NodePtr last = tail;
-  NodePtr newPtr = new patient(name,age,risk,weight,height,blood_pressure,hemoglobin,organ);
+  NodePtr newPtr = makepatient();
+  returningscreen();
   if(size == 0){
     head = newPtr;
     tail = head;
