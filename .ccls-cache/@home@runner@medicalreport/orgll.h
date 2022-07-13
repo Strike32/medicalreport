@@ -64,11 +64,11 @@ void OrgLL::checker(LL *patientlist){
 void OrgLL::organqueue(){
   string organname;string donor;
   int quality;
-  cout<<"Organ name: "<<endl;
+  cout<<"Organ name: ";
   cin>>organname;
-  cout<<"Donor name: "<<endl;
+  cout<<"Donor name: ";
   cin>>donor;
-  cout<<"Organ quality: "<<endl;
+  cout<<"Organ quality: ";
   cin>>quality;
   OrgNode newin = new organ(organname,quality,donor);
   if(orgsize == 0){
