@@ -50,6 +50,11 @@ void LL::perscription(int mode){
   int choice;
   NodePtr prev, next;
   NodePtr t = head;
+  if(isEmpty()){
+    cout<<"No patient in system, cannot give medications"<<endl;
+    returningscreen();
+    return;
+  }
   for(int i= 0; i<size;i++){
     cout<<i+1<<". "<<t->getname()<<"\n\tRisk factor: "<<t->riskfactor()<<"\n\tHealth Risk: "<<t->getrisk()<<endl;
     t = t->getnext();
@@ -64,15 +69,13 @@ void LL::perscription(int mode){
       y = y->getnext();
     }
     if(mode!= -1){
-      if(size>1){
-        NodePtr newnode = y->duplicate();
-        y->updaterecorded(4);
-        string name = y->getname();
-        deletes(name, 100);
-        cout<<"error here";
-        newnode->reduce_risk_factor();
-        insert(newnode);
-      }
+      NodePtr newnode = y->duplicate();
+      y->updaterecorded(4);
+      string name = y->getname();
+      deletes(name, 100);
+      //cout<<"error here";
+      newnode->reduce_risk_factor();
+      insert(newnode);
     }else{
       y->reduce_risk_factor();
     }
