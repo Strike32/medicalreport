@@ -195,7 +195,7 @@ NodePtr LL::makepatient(){
   cin>>name;
   cout<<"AGE : ";
   cin>>age;
-  cout<<"HEALTH CONCERS (Type none if none) : ";
+  cout<<"HEALTH CONCERS (Type none if none) (if concern involes specific organ, please type said organ): ";
   cin>>risk;
   cout<<"WEIGHT (kilogram) : "; 
   cin>>weight;

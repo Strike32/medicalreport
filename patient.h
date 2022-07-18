@@ -9,7 +9,7 @@ class patient{
     patient *prevPatient;
     string name;
     int age;
-    string risk;
+    string risk; //stores health concerns, if concern is specific organ type said organ
     float risk_factor;
     float weight;
     float height;
