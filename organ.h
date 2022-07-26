@@ -6,6 +6,7 @@ class organ{
     organ *nextOrg;
     organ *prevOrg;
     int used;
+
   public:
     organ(string,int,string);
     string getorgan(){return organname;}
